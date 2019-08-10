@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>586</width>
-    <height>336</height>
+    <width>563</width>
+    <height>332</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QProgressBar" name="progressBar">
+   <widget class="QProgressBar" name="batteryProgressBar">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -23,6 +23,11 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
     <property name="acceptDrops">
      <bool>false</bool>
     </property>
@@ -30,7 +35,10 @@
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true">selection-color: rgb(170, 0, 0);</string>
+     <string notr="true"/>
+    </property>
+    <property name="maximum">
+     <number>100</number>
     </property>
     <property name="value">
      <number>24</number>
@@ -44,11 +52,8 @@
     <property name="invertedAppearance">
      <bool>false</bool>
     </property>
-    <property name="format">
-     <string>%p%</string>
-    </property>
    </widget>
-   <widget class="QProgressBar" name="progressBar_2">
+   <widget class="QProgressBar" name="ChamberPProgressBar">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -64,7 +69,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QProgressBar" name="progressBar_3">
+   <widget class="QProgressBar" name="ChamberTProgressBar">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -80,7 +85,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QProgressBar" name="progressBar_4">
+   <widget class="QProgressBar" name="ThrustProgressBar">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -96,13 +101,13 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="launchPushButton">
     <property name="geometry">
      <rect>
       <x>390</x>
       <y>100</y>
-      <width>101</width>
-      <height>91</height>
+      <width>111</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="font">
@@ -114,7 +119,7 @@
      <string>Launch</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox">
+   <widget class="QCheckBox" name="ignitorSafetyCheckBox">
     <property name="geometry">
      <rect>
       <x>390</x>
@@ -135,7 +140,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton">
+   <widget class="QRadioButton" name="logdataRadio">
     <property name="geometry">
      <rect>
       <x>390</x>
@@ -152,13 +157,16 @@
     <property name="text">
      <string>Log Data</string>
     </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="fileNameLineEdit">
     <property name="geometry">
      <rect>
       <x>390</x>
       <y>40</y>
-      <width>113</width>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
@@ -166,7 +174,7 @@
      <string>data.txt</string>
     </property>
    </widget>
-   <widget class="QLCDNumber" name="lcdNumber">
+   <widget class="QLCDNumber" name="BatteryLCD">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -175,8 +183,11 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="smallDecimalPoint">
+     <bool>true</bool>
+    </property>
    </widget>
-   <widget class="QLCDNumber" name="lcdNumber_2">
+   <widget class="QLCDNumber" name="ChamberPLCD">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -185,8 +196,11 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="smallDecimalPoint">
+     <bool>true</bool>
+    </property>
    </widget>
-   <widget class="QLCDNumber" name="lcdNumber_3">
+   <widget class="QLCDNumber" name="chamberTLCD">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -195,8 +209,11 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="smallDecimalPoint">
+     <bool>true</bool>
+    </property>
    </widget>
-   <widget class="QLCDNumber" name="lcdNumber_4">
+   <widget class="QLCDNumber" name="ThrustLCD">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -205,8 +222,11 @@
       <height>23</height>
      </rect>
     </property>
+    <property name="smallDecimalPoint">
+     <bool>true</bool>
+    </property>
    </widget>
-   <widget class="QLabel" name="label">
+   <widget class="QLabel" name="batteryLabel">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -224,7 +244,7 @@
      <string>Battery Voltage</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_2">
+   <widget class="QLabel" name="chamberPLabel">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -242,7 +262,7 @@
      <string>Chamber Pressure</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
+   <widget class="QLabel" name="chamberTLabel">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -260,7 +280,7 @@
      <string>Chamber Temperature</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QLabel" name="thrustLabel">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -278,11 +298,11 @@
      <string>Thrust</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_5">
+   <widget class="QLabel" name="rpLabel">
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>200</y>
+      <y>210</y>
       <width>181</width>
       <height>91</height>
      </rect>
@@ -297,16 +317,6 @@
      <bool>true</bool>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>586</width>
-     <height>21</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionNew">
