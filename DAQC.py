@@ -1,5 +1,6 @@
 import time
 import piplates.DAQCplate as DAQC
+import paho.mqtt.client as mqtt
 
 #------INPUTS waiting for values
                                
@@ -18,6 +19,42 @@ temp_max = 257
 temp_volt_HIGH = 1.2
 temp_volt_LOW = 0
 offset = 0.5
+
+#----------------
+
+
+#-------------MQTT
+
+def on_connect(client, userdata, flags, rc):
+    print("connected with code :" + str(rc))
+    error = rc
+    return error
+    
+def on_disconnect(client, userdata,rc=0):
+    print("Disconnected result code :" + str(rc))
+    client.loop_stop()
+    
+def on_message(client, userdata, msg):
+    calldata(str(msg.payload))
+
+rpi_ip = "192.168.0.20"
+
+topic = "data"
+
+client = mqtt.Client()
+client.on_connect = on_connect
+client.on_disconnect = on_disconnect
+client.on_message = on_message
+try:
+    client.connect(rpi_ip)
+except:
+    print("connection failed")
+client.loop_start()
+
+print("Connected")
+
+
+#------------------------
 
 fileName = input("what would you like your file to be named?\n")
 fileName = str(fileName)
@@ -55,6 +92,7 @@ def main():
         #temp = adcFormula(temp_raw, temp_max, temp_volt_HIGH, temp_volt_LOW, 2)
 
         print('{}, {}, {}, {}, {}'.format(currentTime, battery, chamberPT, thrustPT, temp_raw))
+        client.publish(topic, b'{},{},{},{}'.format(currentTime, battery, chamberPT, thrustPT, tempF))
         f.write('{}, {}, {}, {}, {}\n'.format(currentTime, battery, chamberPT, thrustPT, tempF))
 
         time.sleep(.1)
@@ -63,5 +101,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
