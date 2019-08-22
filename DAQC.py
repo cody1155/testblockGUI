@@ -25,36 +25,38 @@ offset = 0.5
 
 #-------------MQTT
 
+HOST = "192.168.0.20"
+TOPIC_1 = "DATA"
+
+print("\nDAQC Server Ready")
+print("Waiting to Establish Connection")
+
 def on_connect(client, userdata, flags, rc):
-    print("connected with code :" + str(rc))
+    print("Connected with result code: " + str(rc))
     error = rc
     return error
-    
-def on_disconnect(client, userdata,rc=0):
-    print("Disconnected result code :" + str(rc))
+
+def on_disconnect(client, userdata, rc=0):
+    print("Connection Lost")
     client.loop_stop()
-    
+
 def on_message(client, userdata, msg):
-    calldata(str(msg.payload))
-
-rpi_ip = "192.168.0.20"
-
-topic = "data"
-
+    print("message recieved")
+    
 client = mqtt.Client()
 client.on_connect = on_connect
-client.on_disconnect = on_disconnect
 client.on_message = on_message
-try:
-    client.connect(rpi_ip)
-except:
-    print("connection failed")
+client.on_disconnect = on_disconnect
+client.connect(HOST, 1883, 60)
 client.loop_start()
 
-print("Connected")
+print("Connection Established")
+
+
 
 
 #------------------------
+time.sleep(1)
 
 fileName = input("what would you like your file to be named?\n")
 fileName = str(fileName)
@@ -91,9 +93,10 @@ def main():
         tempF = (tempC * 1.8) + 32
         #temp = adcFormula(temp_raw, temp_max, temp_volt_HIGH, temp_volt_LOW, 2)
 
-        print('{}, {}, {}, {}, {}'.format(currentTime, battery, chamberPT, thrustPT, temp_raw))
-        client.publish(topic, b'{},{},{},{}'.format(currentTime, battery, chamberPT, thrustPT, tempF))
-        f.write('{}, {}, {}, {}, {}\n'.format(currentTime, battery, chamberPT, thrustPT, tempF))
+        data = "{}, {}, {}, {}, {}\n".format(currentTime, battery, chamberPT, thrustPT, temp_raw)
+        print(data)
+        client.publish(TOPIC_1,b'data')
+        f.write(data)
 
         time.sleep(.1)
         f.close()
