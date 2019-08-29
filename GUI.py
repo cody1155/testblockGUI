@@ -1,15 +1,15 @@
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
+import threading
 import sys
 import time
-
 
 class MyGUI(QtWidgets.QMainWindow):
     def __init__(self):
         super(MyGUI, self).__init__()
         uic.loadUi('IcarusGUI.ui', self)
-
+        
         self.batteryProgressBar.setMaximum(1500)
-        self.batteryProgressBar.setValue(750)
+        self.batteryProgressBar.setValue(1500)
         self.batteryLCD.setSegmentStyle(2)
         self.batteryLCD.display(str(1500.12))
 
@@ -29,13 +29,10 @@ class MyGUI(QtWidgets.QMainWindow):
         self.thrustLCD.display(str(1500.12))
 
         self.launchPushButton.clicked.connect(self.launch)
-            
 
     def launch(self):
         if(self.ignitorSafetyCheckBox.isChecked() != True):
             print("Launch")
-        
-        
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
