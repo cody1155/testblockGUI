@@ -25,8 +25,8 @@ offset = 0.5
 
 #-------------MQTT
 
-HOST = "192.168.0.20"
-TOPIC_1 = "DATA"
+host = "192.168.0.20"
+topic = "DATA"
 
 print("\nDAQC Server Ready")
 print("Waiting to Establish Connection")
@@ -47,7 +47,7 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 client.on_disconnect = on_disconnect
-client.connect(HOST, 1883, 60)
+client.connect(host, 1883, 60)
 client.loop_start()
 
 print("Connection Established")
@@ -95,7 +95,7 @@ def main():
 
         data = "{}, {}, {}, {}, {}\n".format(currentTime, battery, chamberPT, thrustPT, temp_raw)
         print(data)
-        client.publish(TOPIC_1,b'data')
+        client.publish(topic,b'data')
         f.write(data)
 
         time.sleep(.1)
