@@ -17,6 +17,8 @@ def on_disconnect(client, userdata, rc=0):
     client.loop_stop()
 
 def on_message(client, userdata, msg):
+
+    
     raw = str(msg.payload)[2:-1] 
     data = raw.split(',')
     
