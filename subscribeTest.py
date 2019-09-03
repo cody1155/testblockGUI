@@ -17,10 +17,14 @@ def on_disconnect(client, userdata, rc=0):
     client.loop_stop()
 
 def on_message(client, userdata, msg):
-    #print("m r")
-    raw = str(msg.payload)[2:-1]
-    data = (raw.split(',')[0], raw.split(',')[1], raw.split(',')[2], raw.split(',')[3])  
-    #data = ('%4s' % data[0])
+    raw = str(msg.payload)[2:-1] 
+    data = raw.split(',')
+    
+    for i in range(0, len(data)):
+        data[i] = data[i].lstrip(" ")
+    
+    data[-1] = data[-1].rstrip("\\n")
+
     print(data)
     
 
