@@ -2,9 +2,6 @@
 #import antigravity
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from PyQt5.QtWidgets import *
 from PyQt5.QtCore import QThread, pyqtSignal
 import paho.mqtt.client as mqtt
 import threading
@@ -27,7 +24,7 @@ class MyThread(QThread):
 
         self.client = mqtt.Client()
         self.client.on_connect = self.on_connect
-        self.client.on_disconnect = self.on_disconnect
+        self.client.on_disconnect = self.on_disconnect        
         self.client.connect(host, 1883, 60)
         self.client.loop_start()
 
@@ -62,7 +59,7 @@ class MyGUI(QtWidgets.QMainWindow):
 
         uic.loadUi('IcarusGUI.ui', self)
         
-        self.thread = MyThread()
+        #self.thread = MyThread()
         
         self.batteryProgressBar.setMaximum(11)
         #self.batteryProgressBar.setValue(750)
@@ -84,13 +81,9 @@ class MyGUI(QtWidgets.QMainWindow):
         self.thrustLCD.setSegmentStyle(2)
         self.thrustLCD.display(str(1500.12))
 
-        
-
-        
-
         self.launchPushButton.clicked.connect(self.launch)
 
-        self.thread.dataSignal.connect(self.displayData)
+        #self.thread.dataSignal.connect(self.displayData)
 
     def launch(self, data):
         if(self.ignitorSafetyCheckBox.isChecked() != True):
@@ -98,7 +91,7 @@ class MyGUI(QtWidgets.QMainWindow):
 
     def displayData(self, data):
         #data[1] = float(data[1]) * 40
-        self.timeBox.setText(data[0])
+        #self.timeBox.setText(data[0])
         print(data)
         #self.batteryProgressBar.setValue(data[1])
         #self.batteryLCD.display((data[1]))
