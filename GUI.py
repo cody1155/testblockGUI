@@ -59,42 +59,54 @@ class MyGUI(QtWidgets.QMainWindow):
 
         uic.loadUi('IcarusGUI.ui', self)
         
-        #self.thread = MyThread()
+        self.thread = MyThread()
         
         self.batteryProgressBar.setMaximum(11)
-        #self.batteryProgressBar.setValue(750)
         self.batteryLCD.setSegmentStyle(2)
-        #self.batteryLCD.display(str(1500.12))
 
         self.chamberPProgressBar.setMaximum(1500)
-        self.chamberPProgressBar.setValue(750)
         self.chamberPLCD.setSegmentStyle(2)
-        self.chamberPLCD.display(str(1500.12))
 
         self.chamberTProgressBar.setMaximum(1500)
-        self.chamberTProgressBar.setValue(750)
         self.chamberTLCD.setSegmentStyle(2)
-        self.chamberTLCD.display(str(1500.12))
 
         self.thrustProgressBar.setMaximum(1500)
-        self.thrustProgressBar.setValue(750)
         self.thrustLCD.setSegmentStyle(2)
-        self.thrustLCD.display(str(1500.12))
 
         self.launchPushButton.clicked.connect(self.launch)
 
-        #self.thread.dataSignal.connect(self.displayData)
+        self.thread.dataSignal.connect(self.displayData)
 
     def launch(self, data):
         if(self.ignitorSafetyCheckBox.isChecked() != True):
             print("Launch")
 
     def displayData(self, data):
-        #data[1] = float(data[1]) * 40
-        #self.timeBox.setText(data[0])
+        
+        self.timeBox.setText(data[0])
+
+        self.batteryProgressBar.setValue(float(data[1]))
+        self.batteryLCD.display(float(data[1]))
+
+        self.chamberPProgressBar.setValue(float(data[2]))
+        self.chamberPLCD.display(float(data[2]))
+
+        self.chamberTProgressBar.setValue(float(data[3]))
+        self.chamberTLCD.display(float(data[3]))
+
+        self.thrustProgressBar.setValue(float(data[4]))
+        self.thrustLCD.display(float(data[4]))
+
+        if(self.logdataRadio.isChecked() == True):
+            s = ", "
+            data[-1] = data[-1] + "\n"
+            
+            fileName = self.fileNameLineEdit.text()
+            f = open(fileName, "a")
+            f.write(s.join(data))
+            f.close()
+            
         print(data)
-        #self.batteryProgressBar.setValue(data[1])
-        #self.batteryLCD.display((data[1]))
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
